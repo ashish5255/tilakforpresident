@@ -22,13 +22,16 @@ body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-ser
 .o2{width:200px;height:200px;background:var(--gold);top:280px;right:-90px;animation-delay:-4s;opacity:.22}
 @keyframes float{50%{transform:translate(20px,30px) scale(1.12)}}
 .badge{display:inline-block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);border:1px solid var(--line);padding:6px 14px;border-radius:99px;background:rgba(224,180,90,.07)}
-.frame{position:relative;width:min(76vw,300px);margin:28px auto 0}
-.ring{position:absolute;inset:-9px;border-radius:999px 999px 30px 30px;background:conic-gradient(from 0deg,var(--gold),transparent 30%,var(--gold2) 55%,transparent 80%,var(--gold));animation:spin 8s linear infinite}
+.frame{position:relative;width:min(70vw,280px);margin:56px auto 0;will-change:transform,opacity;transform:translateY(calc(var(--sy,0)*-.08px)) scale(calc(1 - var(--sy,0)*.0003));opacity:calc(1 - var(--sy,0)*.0012)}
+.frame:before{content:"";position:absolute;inset:-28px;border-radius:50%;border:1px dashed rgba(224,180,90,.5);animation:spin 26s linear infinite reverse}
+.frame:after{content:"";position:absolute;inset:-10px;border-radius:50%;border:2px solid var(--gold);opacity:0;animation:ripple 3.2s ease-out infinite}
+@keyframes ripple{from{opacity:.6;transform:scale(1)}to{opacity:0;transform:scale(1.4)}}
+.ring{position:absolute;inset:-10px;border-radius:50%;background:conic-gradient(from 0deg,var(--gold),transparent 30%,var(--gold2) 55%,transparent 80%,var(--gold));animation:spin 8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.photo{position:relative;display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:top;border-radius:999px 999px 24px 24px;border:4px solid var(--bg);animation:pop 1.2s cubic-bezier(.2,.8,.2,1) both}
+.photo{position:relative;display:block;width:100%;aspect-ratio:1/1;object-fit:cover;object-position:50% 8%;border-radius:50%;border:4px solid var(--bg);animation:pop 1.2s cubic-bezier(.2,.8,.2,1) both}
 @keyframes pop{from{opacity:0;transform:scale(.92) translateY(20px)}}
-.pin{position:absolute;left:50%;bottom:-16px;transform:translateX(-50%);white-space:nowrap;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1405;font-weight:600;font-size:12px;padding:8px 18px;border-radius:99px;box-shadow:0 8px 24px rgba(0,0,0,.4)}
-h1{font-size:clamp(28px,8.5vw,40px);line-height:1.15;margin-top:42px;animation:up .9s .3s both}
+.pin{z-index:2;position:absolute;left:50%;bottom:-16px;transform:translateX(-50%);white-space:nowrap;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1405;font-weight:600;font-size:12px;padding:8px 18px;border-radius:99px;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+h1{font-size:clamp(28px,8.5vw,40px);line-height:1.15;margin-top:64px;animation:up .9s .3s both}
 .role{color:var(--muted);font-size:14px;margin-top:6px;animation:up .9s .45s both}
 .tag{margin-top:18px;font-size:18px;color:var(--gold2);animation:up .9s .6s both}
 @keyframes up{from{opacity:0;transform:translateY(18px)}}
@@ -42,8 +45,15 @@ section{padding:56px 0}
 h2{font-size:clamp(26px,7.5vw,34px);text-align:center;line-height:1.2;margin:10px 0 8px}
 .sub{text-align:center;color:var(--muted);font-size:14px;margin-bottom:32px}
 .rule{width:56px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));margin:14px auto 0}
-.rv{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
-.rv.in{opacity:1;transform:none}
+.rv{opacity:0;transform:translateY(34px);filter:blur(8px);transition:opacity .8s ease,transform .9s cubic-bezier(.2,.8,.2,1),filter .8s ease}
+.rv.l{transform:translateX(-44px)}
+.rv.r{transform:translateX(44px)}
+.rv.z{transform:scale(.88) translateY(20px)}
+.rv.in{opacity:1;transform:none;filter:none}
+.rv .rule{width:0;transition:width .9s .35s ease}
+.rv.in .rule{width:56px}
+.rv.in .ico{animation:bob .7s .4s both}
+@keyframes bob{40%{transform:scale(1.25) rotate(-8deg)}}
 .pill{display:block;width:100%;text-align:left;background:linear-gradient(160deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:14px;color:inherit;font:inherit;cursor:pointer;position:relative;overflow:hidden;transition:transform .25s,border-color .25s}
 .pill:active{transform:scale(.98)}
 .pill.open{border-color:var(--gold)}
@@ -100,7 +110,7 @@ footer{text-align:center;padding:48px 0 110px;border-top:1px solid var(--line);b
 .bar span b{display:block;color:var(--gold2)}
 .bar .btn{margin:0;padding:10px 20px;font-size:13px;animation:none;box-shadow:none}
 .prog{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));z-index:30;width:0}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv,.rv.l,.rv.r,.rv.z{opacity:1;transform:none;filter:none}.rv .rule{width:56px}.frame{transform:none;opacity:1}}
 </style>
 </head>
 <body>
@@ -157,20 +167,20 @@ const VISION = {
 };
 /* ================================================ */
 
-function Reveal({ delay = 0, children }) {
+function Reveal({ delay = 0, v = "", children }) {
   const ref = useRef(null);
   const [on, setOn] = useState(false);
   useEffect(() => {
-    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setOn(true); io.disconnect(); } }, { threshold: 0.15 });
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setOn(true); io.disconnect(); } }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
     io.observe(ref.current);
     return () => io.disconnect();
   }, []);
-  return html`<div ref=${ref} class=${"rv" + (on ? " in" : "")} style=${{ transitionDelay: delay + "ms" }}>${children}</div>`;
+  return html`<div ref=${ref} class=${"rv " + v + (on ? " in" : "")} style=${{ transitionDelay: delay + "ms" }}>${children}</div>`;
 }
 
 function Pillar({ p, i }) {
   const [open, setOpen] = useState(false);
-  return html`<${Reveal} delay=${i % 2 * 80}>
+  return html`<${Reveal} v=${i % 2 ? "r" : "l"}>
     <button class=${"pill" + (open ? " open" : "")} onClick=${() => setOpen(!open)} aria-expanded=${open}>
       <div class="row">
         <div class="num">${"0" + (i + 1)}</div>
@@ -197,6 +207,7 @@ function App() {
     const f = () => {
       const h = document.documentElement.scrollHeight - innerHeight;
       progRef.current.style.width = (scrollY / h * 100) + "%";
+      if (scrollY < 1000) document.documentElement.style.setProperty("--sy", scrollY);
       setBar(scrollY > innerHeight * 0.9);
     };
     addEventListener("scroll", f, { passive: true });
@@ -239,7 +250,7 @@ function App() {
         <div class="rule"></div>
       <//>
       <div class="tl">
-        ${JOURNEY.map(([k, t], i) => html`<${Reveal} key=${k} delay=${i * 90}><div class="step"><small>${k}</small><p class="ne">${t}</p></div><//>`)}
+        ${JOURNEY.map(([k, t], i) => html`<${Reveal} key=${k} v="r" delay=${i * 90}><div class="step"><small>${k}</small><p class="ne">${t}</p></div><//>`)}
       </div>
     </div></section>
 
@@ -272,7 +283,7 @@ function App() {
     </div></section>
 
     <section><div class="wrap">
-      <${Reveal}>
+      <${Reveal} v="z">
         <div class="quote ne">
           <p>${MESSAGE}</p>
           <strong>${MESSAGE_CLOSE}</strong>
@@ -282,7 +293,7 @@ function App() {
     </div></section>
 
     <footer><div class="wrap">
-      <${Reveal}>
+      <${Reveal} v="z">
         <div class="final serif">Together, We Lead.<br/><span>Together, We Grow.</span></div>
         <button class="btn" onClick=${share}>Share this vision →</button>
         <div class="fine">Your thoughts and suggestions shape this journey.</div>
